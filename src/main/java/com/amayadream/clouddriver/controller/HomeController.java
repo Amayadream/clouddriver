@@ -2,19 +2,18 @@ package com.amayadream.clouddriver.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author :  Amayadream
- * @date :  2016.09.26 15:38
+ * @date :  2016.10.17 11:17
  */
 @Controller
 @RequestMapping(value = "/")
-public class IndexController {
+public class HomeController {
 
-    @RequestMapping(value = "/")
-    public ModelAndView index(){
-        return new ModelAndView("index");
+    @RequestMapping(value = "/home")
+    public String home(){
+        return "index";
     }
 
 }

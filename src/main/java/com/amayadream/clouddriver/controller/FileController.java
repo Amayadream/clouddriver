@@ -9,18 +9,20 @@ import com.amayadream.clouddriver.utils.Results;
 import com.amayadream.clouddriver.utils.StringUtil;
 import com.mongodb.gridfs.GridFSFile;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Date;
 
 /**
@@ -52,7 +54,10 @@ public class FileController {
         return flag ? Results.success("文件已存在于文件库中, 可以秒传!") : Results.error("文件第一次上传, 开始上传!");
     }
 
-    @RequestMapping(value = "/upload")
+    /**
+     * 文件上传
+     */
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public void upload(@RequestParam MultipartFile file, @RequestParam String folderId) throws IOException {
         String md5 = MD5Util.MD5(file.getInputStream());
         Date date = new Date();
@@ -72,5 +77,36 @@ public class FileController {
             logger.debug("文件{}秒传完毕.", file.getOriginalFilename());
         }
     }
+
+    /**
+     * 文件下载
+     */
+    @RequestMapping(value = "/download", method = RequestMethod.GET)
+    public void download(HttpServletResponse response) throws IOException {
+        File file = new File("E:\\常用工具\\镜像\\CentOS-6.5-x86_64-bin-DVD1.iso");
+        String fileNameEncode = new String("CentOS-6.5-x86_64-bin-DVD1.iso".getBytes(),"ISO8859-1");
+        response.setContentType("application/x-msdownload");
+        FileInputStream fis = new FileInputStream(file);
+        response.setHeader("Content-Disposition","attachment;filename=\""+fileNameEncode+"\"");     //文件名经过处理,防止有空格时出现文件名不全的情况
+        OutputStream os = response.getOutputStream();
+        IOUtils.copy(fis,os);
+    }
+
+    /**
+     * 移入垃圾箱
+     */
+    @RequestMapping(value = "/trash/{fileId}", method = RequestMethod.GET)
+    public void trash(@PathVariable String fileId) {
+
+    }
+
+    /**
+     * 文件删除
+     */
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    public void delete(){
+
+    }
+
 
 }

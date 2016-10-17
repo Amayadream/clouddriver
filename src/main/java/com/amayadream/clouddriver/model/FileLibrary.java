@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Repository;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -12,7 +13,7 @@ import java.util.Date;
  */
 @Document(collection = "fileLibrary")
 @Repository
-public class FileLibrary {
+public class FileLibrary implements Serializable {
 
     /** 文件ID(文件md5) */
     @Id

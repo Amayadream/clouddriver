@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Repository;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**文件夹实体
@@ -12,7 +13,7 @@ import java.util.Date;
  */
 @Document(collection = "folder")
 @Repository
-public class FolderCommon {
+public class FolderCommon implements Serializable {
 
     /** 文件夹ID */
     @Id
