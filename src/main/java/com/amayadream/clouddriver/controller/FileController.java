@@ -60,7 +60,7 @@ public class FileController {
         if(!flag){
             logger.debug("新文件{}第一次上传, 计算出MD值为{}", file.getOriginalFilename(), md5);
             GridFSFile store = gridFsTemplate.store(file.getInputStream(), file.getOriginalFilename(), file.getContentType());
-            FileLibrary fileLibrary = new FileLibrary(store.getMD5(), String.valueOf(store.getId()), store.getLength(), date, date, 1);
+            FileLibrary fileLibrary = new FileLibrary(store.getMD5(), file.getOriginalFilename(), FilenameUtils.getExtension(file.getOriginalFilename()), store.getLength(), String.valueOf(store.getId()), date, date, 1);
             libraryService.insert(fileLibrary);
             FileCommon fileCommon = new FileCommon(StringUtil.generateGuid(), "Amayadream", folderId, store.getFilename(), FilenameUtils.getExtension(store.getFilename()), store.getLength(), store.getMD5(), date, date, 1);
             fileService.insert(fileCommon);

@@ -17,25 +17,31 @@ public class FileLibrary {
     /** 文件ID(文件md5) */
     @Id
     private String fileId;
-    /** 关联文件(文件实体) */
-    private String fileLink;
+    /** 文件名称 */
+    private String fileName;
+    /** 文件拓展名 */
+    private String fileExt;
     /** 文件大小 */
     private long fileSize;
+    /** 关联文件(文件实体) */
+    private String fileLink;
     /** 文件创建时间 */
     private Date createTime;
     /** 文件修改时间(最后一次被使用) */
     private Date modifyTime;
-    /** 文件状态(1:正常) */
+    /** 文件状态(1:正常, -1:封禁) */
     private int status;
 
     public FileLibrary() {
 
     }
 
-    public FileLibrary(String fileId, String fileLink, long fileSize, Date createTime, Date modifyTime, int status) {
+    public FileLibrary(String fileId, String fileName, String fileExt, long fileSize, String fileLink, Date createTime, Date modifyTime, int status) {
         this.fileId = fileId;
-        this.fileLink = fileLink;
+        this.fileName = fileName;
+        this.fileExt = fileExt;
         this.fileSize = fileSize;
+        this.fileLink = fileLink;
         this.createTime = createTime;
         this.modifyTime = modifyTime;
         this.status = status;
@@ -49,12 +55,20 @@ public class FileLibrary {
         this.fileId = fileId;
     }
 
-    public String getFileLink() {
-        return fileLink;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setFileLink(String fileLink) {
-        this.fileLink = fileLink;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getFileExt() {
+        return fileExt;
+    }
+
+    public void setFileExt(String fileExt) {
+        this.fileExt = fileExt;
     }
 
     public long getFileSize() {
@@ -63,6 +77,14 @@ public class FileLibrary {
 
     public void setFileSize(long fileSize) {
         this.fileSize = fileSize;
+    }
+
+    public String getFileLink() {
+        return fileLink;
+    }
+
+    public void setFileLink(String fileLink) {
+        this.fileLink = fileLink;
     }
 
     public Date getCreateTime() {

@@ -34,8 +34,9 @@ public class FileCommon {
     private Date createTime;
     /** 修改时间 */
     private Date modifyTime;
-    /** 文件状态 */
+    /** 文件状态, 1:正常, 0:回收站 */
     private int status;
+
 
     public FileCommon() {
 
