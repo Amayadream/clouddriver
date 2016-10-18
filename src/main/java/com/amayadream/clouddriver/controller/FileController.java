@@ -4,6 +4,7 @@ import com.amayadream.clouddriver.model.FileCommon;
 import com.amayadream.clouddriver.model.FileLibrary;
 import com.amayadream.clouddriver.service.IFileLibraryService;
 import com.amayadream.clouddriver.service.IFileService;
+import com.amayadream.clouddriver.utils.Constants;
 import com.amayadream.clouddriver.utils.MD5Util;
 import com.amayadream.clouddriver.utils.Results;
 import com.amayadream.clouddriver.utils.StringUtil;
@@ -31,6 +32,7 @@ import java.util.Date;
  */
 @Controller
 @RequestMapping(value = "/file")
+@SessionAttributes(Constants.SESSION_USERID)
 public class FileController {
 
     /** 日志 */
@@ -58,7 +60,7 @@ public class FileController {
      * 文件上传
      */
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public void upload(@RequestParam MultipartFile file, @RequestParam String folderId) throws IOException {
+    public void upload(@RequestParam MultipartFile file, @RequestParam String folderId, @ModelAttribute String userId) throws IOException {
         String md5 = MD5Util.MD5(file.getInputStream());
         Date date = new Date();
         boolean flag = libraryService.isExist(md5);
@@ -90,22 +92,6 @@ public class FileController {
         response.setHeader("Content-Disposition","attachment;filename=\""+fileNameEncode+"\"");     //文件名经过处理,防止有空格时出现文件名不全的情况
         OutputStream os = response.getOutputStream();
         IOUtils.copy(fis,os);
-    }
-
-    /**
-     * 移入垃圾箱
-     */
-    @RequestMapping(value = "/trash/{fileId}", method = RequestMethod.GET)
-    public void trash(@PathVariable String fileId) {
-
-    }
-
-    /**
-     * 文件删除
-     */
-    @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    public void delete(){
-
     }
 
 
