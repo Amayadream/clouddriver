@@ -24,8 +24,9 @@ public class LogInterceptor {
 
     /** 认证操作 */
     @Pointcut("execution(public * com.amayadream.clouddriver.controller.FileController.*(..))")
-    public void auth(){}
+    public void auth(){
 
+    }
 
     /**
      * 用户登陆日志

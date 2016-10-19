@@ -17,7 +17,7 @@
 </head>
 <body>
 <ol class="breadcrumb">
-    <li><a href="${ctx}/home">index</a></li>
+    <li><a href="${ctx}/home">home</a></li>
 </ol>
 
 </body>
