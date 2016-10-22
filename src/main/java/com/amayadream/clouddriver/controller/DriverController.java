@@ -43,5 +43,31 @@ public class DriverController {
 
     }
 
+    /**
+     * 收藏(单独路径收藏)
+     */
+    @RequestMapping(value = "/favourite")
+    public void favourite(){
+
+    }
+
+    /**
+     * 属性详情
+     */
+    @RequestMapping(value = "/info")
+    public void info(){
+
+    }
+
+    @RequestMapping(value = "/copy")
+    public void copy(){
+
+    }
+
+    @RequestMapping(value = "/parse")
+    public void parse(){
+
+    }
+
 
 }

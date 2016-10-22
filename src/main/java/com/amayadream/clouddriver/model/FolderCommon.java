@@ -24,6 +24,8 @@ public class FolderCommon implements Serializable {
     private String folderName;
     /** 用户名 */
     private String userId;
+    /** 收藏, 1:收藏, -1:未收藏 */
+    private int favo;
     /** 创建时间 */
     private Date createTime;
     /** 修改时间 */
@@ -43,6 +45,7 @@ public class FolderCommon implements Serializable {
         this.createTime = createTime;
         this.modifyTime = modifyTime;
         this.status = status;
+        this.favo = -1;
     }
 
     public String getFolderId() {
@@ -99,5 +102,13 @@ public class FolderCommon implements Serializable {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public int getFavo() {
+        return favo;
+    }
+
+    public void setFavo(int favo) {
+        this.favo = favo;
     }
 }

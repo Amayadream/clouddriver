@@ -31,6 +31,8 @@ public class FileCommon implements Serializable {
     private long fileSize;
     /** 文件MD5(文件库的ID) */
     private String fileMd5;
+    /** 收藏, 1:收藏, -1:未收藏 */
+    private int favo;
     /** 创建时间 */
     private Date createTime;
     /** 修改时间 */
@@ -54,6 +56,7 @@ public class FileCommon implements Serializable {
         this.createTime = createTime;
         this.modifyTime = modifyTime;
         this.status = status;
+        this.favo = -1;
     }
 
     public String getFileId() {
@@ -134,5 +137,13 @@ public class FileCommon implements Serializable {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public int getFavo() {
+        return favo;
+    }
+
+    public void setFavo(int favo) {
+        this.favo = favo;
     }
 }

@@ -47,16 +47,10 @@ public class FolderServiceImpl implements IFolderService {
     }
 
     public int add(String userId, String folderPid, String folderName) throws FolderNotFoundException {
+        if(findById(userId, folderPid) == null) throw new FolderNotFoundException("父文件夹未找到!");
         if(validateFolderName(userId, folderPid, folderName) == 1){
-            FolderCommon folder = new FolderCommon();
             Date time = new Date();
-            folder.setFolderId(StringUtil.generateGuid());
-            folder.setFolderPid(folderPid);
-            folder.setFolderName(folderName);
-            folder.setUserId(userId);
-            folder.setCreateTime(time);
-            folder.setModifyTime(time);
-            folder.setStatus(1);
+            FolderCommon folder = new FolderCommon(StringUtil.generateGuid(), folderPid, folderName, userId, time, time, 1);
             mongoTemplate.save(folder);
             return 1;
         }else{
@@ -66,7 +60,7 @@ public class FolderServiceImpl implements IFolderService {
 
     public int update(String userId, String folderId, String folderName) throws FolderNotFoundException {
         FolderCommon folder = findById(userId, folderId);
-        if(folder == null) throw new FolderNotFoundException();
+        if(folder == null) throw new FolderNotFoundException("文件夹未找到!");
         folder.setFolderName(folderName);
         folder.setModifyTime(new Date());
         mongoTemplate.save(folder);
