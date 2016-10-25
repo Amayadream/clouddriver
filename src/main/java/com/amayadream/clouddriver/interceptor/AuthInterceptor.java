@@ -42,7 +42,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         //登录拦截器
         HttpSession session = request.getSession();
         if (session.getAttribute(Constants.SESSION_USERID) == null) {
-            throw new AuthorizationException();
+            throw new AuthorizationException(Constants.EXCEPTION_MSG_AUTH);
         } else {
             return true;
         }

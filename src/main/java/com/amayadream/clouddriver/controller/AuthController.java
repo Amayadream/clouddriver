@@ -53,7 +53,7 @@ public class AuthController {
     /**
      * 注销
      */
-    @RequestMapping(value = "logout", method = RequestMethod.GET)
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(HttpSession session){
         session.invalidate();
         return "redirect:/auth/login";

@@ -5,6 +5,7 @@ import com.amayadream.clouddriver.model.FileCommon;
 import com.amayadream.clouddriver.model.FolderCommon;
 import com.amayadream.clouddriver.service.IFileService;
 import com.amayadream.clouddriver.service.IFolderService;
+import com.amayadream.clouddriver.utils.Constants;
 import com.amayadream.clouddriver.utils.StringUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -46,25 +47,23 @@ public class FolderServiceImpl implements IFolderService {
         return list.size() == 0 ? 1 : 0;
     }
 
-    public int add(String userId, String folderPid, String folderName) throws FolderNotFoundException {
-        if(findById(userId, folderPid) == null) throw new FolderNotFoundException("父文件夹未找到!");
+    public void insert(String userId, String folderPid, String folderName) throws Exception {
+        if(findById(userId, folderPid) == null) throw new FolderNotFoundException(Constants.EXCEPTION_MSG_FLODER_NOT_FOUND);
         if(validateFolderName(userId, folderPid, folderName) == 1){
             Date time = new Date();
             FolderCommon folder = new FolderCommon(StringUtil.generateGuid(), folderPid, folderName, userId, time, time, 1);
             mongoTemplate.save(folder);
-            return 1;
         }else{
-            return -1;
+            throw new Exception("文件名重复!");
         }
     }
 
-    public int update(String userId, String folderId, String folderName) throws FolderNotFoundException {
+    public void rename(String userId, String folderId, String folderName) throws FolderNotFoundException {
         FolderCommon folder = findById(userId, folderId);
-        if(folder == null) throw new FolderNotFoundException("文件夹未找到!");
+        if(folder == null) throw new FolderNotFoundException(Constants.EXCEPTION_MSG_FLODER_NOT_FOUND);
         folder.setFolderName(folderName);
         folder.setModifyTime(new Date());
         mongoTemplate.save(folder);
-        return 1;
     }
 
     public int remove(String userId, String[] folderId) {

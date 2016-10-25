@@ -2,12 +2,14 @@ package com.amayadream.clouddriver.serviceImpl;
 
 import com.amayadream.clouddriver.model.User;
 import com.amayadream.clouddriver.service.IUserService;
+import com.amayadream.clouddriver.utils.Constants;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 /**
  * @author :  Amayadream
@@ -40,6 +42,26 @@ public class UserServiceImpl implements IUserService {
     @Override
     public User findById(String userId) {
         return mongoTemplate.findById(userId, User.class);
+    }
+
+    @Override
+    public void insert(User user) {
+        Date date = new Date();
+        user.setRegisterTime(date);
+        user.setFinallyTime(date);
+        user.setStatus(Constants.ACCOUNT_WAITFORVALID);
+        mongoTemplate.insert(user);
+    }
+
+    @Override
+    public void update(User user) {
+        
+
+    }
+
+    @Override
+    public int delete(String[] userIds) {
+        return 0;
     }
 
 

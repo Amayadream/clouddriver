@@ -1,5 +1,6 @@
 package com.amayadream.clouddriver.controller;
 
+import com.amayadream.clouddriver.exception.FileCommonNotFoundException;
 import com.amayadream.clouddriver.model.FileCommon;
 import com.amayadream.clouddriver.model.FileLibrary;
 import com.amayadream.clouddriver.service.IFileLibraryService;
@@ -77,6 +78,20 @@ public class FileController {
             FileCommon fileCommon = new FileCommon(StringUtil.generateGuid(), "Amayadream", folderId, file.getOriginalFilename(), FilenameUtils.getExtension(file.getOriginalFilename()), file.getSize(), md5, date, date, 1);
             fileService.insert(fileCommon);
             logger.debug("文件{}秒传完毕.", file.getOriginalFilename());
+        }
+    }
+
+    /**
+     * 文件重命名
+     */
+    @RequestMapping(value = "/rename")
+    public Results rename(@RequestParam String fileId, @RequestParam String fileName, @ModelAttribute(Constants.SESSION_USERID) String userId) {
+        try {
+            fileService.rename(userId, fileId, fileName);
+            return Results.success("修改成功!");
+        } catch (FileCommonNotFoundException e) {
+            logger.debug("重命名文件失败, 错误原因: {}", e.getMessage());
+            return Results.error(e.getMessage());
         }
     }
 

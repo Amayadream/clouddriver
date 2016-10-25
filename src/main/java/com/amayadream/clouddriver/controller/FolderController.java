@@ -35,20 +35,23 @@ public class FolderController {
     @RequestMapping(value = "/create")
     public Results add(@RequestParam(defaultValue = "0") String folderPid, @RequestParam String folderName, @ModelAttribute(Constants.SESSION_USERID) String userId) {
         try {
-            return folderService.add(userId, folderPid, folderName) == 1 ? Results.success("添加成功!") : Results.error("添加失败, 文件夹名称重复!");
+            folderService.insert(userId, folderPid, folderName);
+            return Results.success("添加成功!");
         } catch (FolderNotFoundException e) {
             logger.debug("新建文件夹失败, 错误原因: {}", e.getMessage());
             return Results.error(e.getMessage());
+        } catch (Exception e) {
+            return Results.error("添加失败, 文件夹名称重复!");
         }
     }
 
     /**
-     * 重命名
+     * 文件夹重命名
      */
-    @RequestMapping(value = "/edit")
-    public Results edit(@RequestParam String folderId, @RequestParam String folderName, @ModelAttribute(Constants.SESSION_USERID) String userId){
+    @RequestMapping(value = "/rename")
+    public Results rename(@RequestParam String folderId, @RequestParam String folderName, @ModelAttribute(Constants.SESSION_USERID) String userId){
         try {
-            folderService.update(userId, folderId, folderName);
+            folderService.rename(userId, folderId, folderName);
             return Results.success("修改成功!");
         } catch (FolderNotFoundException e) {
             logger.debug("重命名文件夹失败, 错误原因: {}", e.getMessage());

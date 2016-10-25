@@ -7,6 +7,8 @@ package com.amayadream.clouddriver.exception;
  */
 public class AuthorizationException extends Exception {
 
-
+    public AuthorizationException(String message) {
+        super(message);
+    }
 
 }

@@ -17,9 +17,9 @@ public interface IFolderService {
 
     int validateFolderName(String userId, String folderId, String folderName) throws FolderNotFoundException;
 
-    int add(String userId, String folderPid, String folderName) throws FolderNotFoundException;
+    void insert(String userId, String folderPid, String folderName) throws Exception;
 
-    int update(String userId, String folderId, String folderName) throws FolderNotFoundException;
+    void rename(String userId, String folderId, String folderName) throws FolderNotFoundException;
 
     int remove(String userId, String[] folderId);
 

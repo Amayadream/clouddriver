@@ -13,10 +13,25 @@ public interface IUserService {
      */
     boolean isUserIdExist(String userId);
 
+    /**
+     * 手机号是否存在
+     */
     boolean isPhoneExist(String phone);
 
+    /**
+     * 邮箱是否存在
+     */
     boolean isMailExist(String mail);
 
+    /**
+     * 根据用户名查询指定用户
+     */
     User findById(String userId);
+
+    void insert(User user);
+
+    void update(User user);
+
+    int delete(String[] userIds);
 
 }

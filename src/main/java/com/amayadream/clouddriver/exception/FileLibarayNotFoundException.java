@@ -7,5 +7,8 @@ package com.amayadream.clouddriver.exception;
  */
 public class FileLibarayNotFoundException extends Exception{
 
+    public FileLibarayNotFoundException(String message) {
+        super(message);
+    }
 
 }

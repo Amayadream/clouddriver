@@ -7,6 +7,8 @@ package com.amayadream.clouddriver.exception;
  */
 public class FileCommonNotFoundException extends Exception {
 
-
+    public FileCommonNotFoundException(String message) {
+        super(message);
+    }
 
 }

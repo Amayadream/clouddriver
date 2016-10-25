@@ -1,7 +1,9 @@
 package com.amayadream.clouddriver.serviceImpl;
 
+import com.amayadream.clouddriver.exception.FileCommonNotFoundException;
 import com.amayadream.clouddriver.model.FileCommon;
 import com.amayadream.clouddriver.service.IFileService;
+import com.amayadream.clouddriver.utils.Constants;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -43,13 +45,15 @@ public class FileServiceImpl implements IFileService {
         mongoTemplate.save(fileCommon);
     }
 
-    public void update(String userId, String fileId, String fileName) {
+    public void rename(String userId, String fileId, String fileName) throws FileCommonNotFoundException {
         FileCommon file = findById(userId, fileId);
         if(file != null){
             file.setFileName(fileName);
             file.setFileExt(FilenameUtils.getExtension(fileName));
             file.setModifyTime(new Date());
             mongoTemplate.save(file);
+        }else{
+            throw new FileCommonNotFoundException(Constants.EXCEPTION_MSG_FILECOMMON_NOT_FOUND);
         }
     }
 

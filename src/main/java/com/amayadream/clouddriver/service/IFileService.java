@@ -1,5 +1,6 @@
 package com.amayadream.clouddriver.service;
 
+import com.amayadream.clouddriver.exception.FileCommonNotFoundException;
 import com.amayadream.clouddriver.model.FileCommon;
 
 import java.util.Date;
@@ -21,12 +22,15 @@ public interface IFileService {
      */
     List<FileCommon> find(String userId, String folderId, String search);
 
+    /**
+     * 添加文件
+     */
     void insert(FileCommon fileCommon);
 
     /**
      * 更新文件
      */
-    void update(String userId, String fileId, String fileName);
+    void rename(String userId, String fileId, String fileName) throws FileCommonNotFoundException;
 
     /**
      * 根据文件ID删除文件实体

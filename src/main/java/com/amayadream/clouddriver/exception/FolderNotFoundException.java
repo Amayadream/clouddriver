@@ -7,9 +7,6 @@ package com.amayadream.clouddriver.exception;
  */
 public class FolderNotFoundException extends Exception {
 
-    public FolderNotFoundException() {
-    }
-
     public FolderNotFoundException(String message) {
         super(message);
     }

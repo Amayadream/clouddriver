@@ -59,11 +59,25 @@ public class DriverController {
 
     }
 
+    /**
+     * 复制
+     */
     @RequestMapping(value = "/copy")
     public void copy(){
 
     }
 
+    /**
+     * 移动
+     */
+    @RequestMapping(value = "/move")
+    public void move(){
+
+    }
+
+    /**
+     * 粘贴
+     */
     @RequestMapping(value = "/parse")
     public void parse(){
 
