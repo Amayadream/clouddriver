@@ -28,12 +28,13 @@ import java.io.OutputStream;
 import java.util.Date;
 
 /**
+ * 文件控制器
  * @author :  Amayadream
  * @date :  2016.09.28 16:23
  */
 @Controller
 @RequestMapping(value = "/file")
-@SessionAttributes(Constants.SESSION_USERID)
+@SessionAttributes(value = {Constants.SESSION_USERID, Constants.SESSION_USER})
 public class FileController {
 
     /** 日志 */

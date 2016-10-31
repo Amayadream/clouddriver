@@ -9,8 +9,8 @@ public class Constants {
 
     /** SESSION 中的用户名 */
     public static final String SESSION_USERID = "userId";
+    /** SESSION 中的用户信息 */
     public static final String SESSION_USER = "user";
-
 
     /** 账号状态: 正常 */
     public static final int ACCOUNT_ACTIVE = 1;
@@ -18,6 +18,11 @@ public class Constants {
     public static final int ACCOUNT_WAITFORVALID = 0;
     /** 账号状态: 禁用 */
     public static final int ACCOUNT_DISABLED = -1;
+
+    /** 文件类型 */
+    public static final String DRIVER_FILE = "file";
+    /** 文件夹类型 */
+    public static final String DRIVER_FOLDER = "folder";
 
 
     public static final String EXCEPTION_MSG_AUTH = "未登陆或者登陆已过期!";

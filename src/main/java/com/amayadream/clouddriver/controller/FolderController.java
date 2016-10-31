@@ -21,7 +21,7 @@ import javax.annotation.Resource;
  */
 @Controller
 @RequestMapping(value = "/folder")
-@SessionAttributes(value = Constants.SESSION_USERID)
+@SessionAttributes(value = {Constants.SESSION_USERID, Constants.SESSION_USER})
 public class FolderController {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());

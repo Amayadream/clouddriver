@@ -9,8 +9,8 @@ import java.util.HashMap;
  */
 public class Results extends HashMap<String, Object> {
 
-    private   static final int SUCCESS = 1;
-    private   static final int ERROR = -1;
+    private static final int SUCCESS = 1;
+    private static final int ERROR = -1;
 
     private Results(int _code, String _msg){
         this.put("code", _code);
@@ -24,6 +24,5 @@ public class Results extends HashMap<String, Object> {
     public static Results error(String _msg) {
         return new Results(Results.ERROR, _msg);
     }
-
 
 }
