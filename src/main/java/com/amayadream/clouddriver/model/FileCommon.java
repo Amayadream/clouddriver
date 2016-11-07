@@ -32,14 +32,22 @@ public class FileCommon implements Serializable {
     /** 文件MD5(文件库的ID) */
     private String fileMd5;
     /** 收藏, 1:收藏, -1:未收藏 */
-    private int favo;
+    private int isFavo;
     /** 创建时间 */
     private Date createTime;
     /** 修改时间 */
     private Date modifyTime;
-    /** 文件状态, 1:正常, 0:回收站 */
+    /** 文件状态, 1:正常, -1:回收站 */
     private int status;
 
+    /** 常量: 文件状态: 正常 */
+    public static final int STATUS_NORMAL = 1;
+    /** 常量: 文件状态: 回收站 */
+    public static final int STATUS_TRASH = -1;
+    /** 常量: 收藏状态: 正常 */
+    public static final int ISFAVO_YES = 1;
+    /** 常量: 收藏状态: 回收站 */
+    public static final int ISFAVO_NO = -1;
 
     public FileCommon() {
 
@@ -56,7 +64,7 @@ public class FileCommon implements Serializable {
         this.createTime = createTime;
         this.modifyTime = modifyTime;
         this.status = status;
-        this.favo = -1;
+        this.isFavo = FileCommon.ISFAVO_NO;
     }
 
     public String getFileId() {
@@ -139,11 +147,11 @@ public class FileCommon implements Serializable {
         this.status = status;
     }
 
-    public int getFavo() {
-        return favo;
+    public int getIsFavo() {
+        return isFavo;
     }
 
-    public void setFavo(int favo) {
-        this.favo = favo;
+    public void setIsFavo(int isFavo) {
+        this.isFavo = isFavo;
     }
 }

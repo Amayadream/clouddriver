@@ -62,7 +62,7 @@ public class FileController {
      * 文件上传
      */
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public void upload(@RequestParam MultipartFile file, @RequestParam String folderId, @ModelAttribute String userId) throws IOException {
+    public void upload(@RequestParam MultipartFile file, @RequestParam String folderId, @ModelAttribute(Constants.SESSION_USERID) String userId) throws IOException {
         String md5 = MD5Util.MD5(file.getInputStream());
         Date date = new Date();
         boolean flag = libraryService.isExist(md5);
@@ -71,12 +71,12 @@ public class FileController {
             GridFSFile store = gridFsTemplate.store(file.getInputStream(), file.getOriginalFilename(), file.getContentType());
             FileLibrary fileLibrary = new FileLibrary(store.getMD5(), file.getOriginalFilename(), FilenameUtils.getExtension(file.getOriginalFilename()), store.getLength(), String.valueOf(store.getId()), date, date, 1);
             libraryService.insert(fileLibrary);
-            FileCommon fileCommon = new FileCommon(StringUtil.generateGuid(), "Amayadream", folderId, store.getFilename(), FilenameUtils.getExtension(store.getFilename()), store.getLength(), store.getMD5(), date, date, 1);
+            FileCommon fileCommon = new FileCommon(StringUtil.generateGuid(), userId, folderId, store.getFilename(), FilenameUtils.getExtension(store.getFilename()), store.getLength(), store.getMD5(), date, date, 1);
             fileService.insert(fileCommon);
             logger.debug("新文件{}上传完毕", file.getOriginalFilename());
         }else{
             logger.debug("文件{}, MD值{}, 已在文件库中发现, 正在进行秒传...", file.getOriginalFilename(), md5);
-            FileCommon fileCommon = new FileCommon(StringUtil.generateGuid(), "Amayadream", folderId, file.getOriginalFilename(), FilenameUtils.getExtension(file.getOriginalFilename()), file.getSize(), md5, date, date, 1);
+            FileCommon fileCommon = new FileCommon(StringUtil.generateGuid(), userId, folderId, file.getOriginalFilename(), FilenameUtils.getExtension(file.getOriginalFilename()), file.getSize(), md5, date, date, 1);
             fileService.insert(fileCommon);
             logger.debug("文件{}秒传完毕.", file.getOriginalFilename());
         }

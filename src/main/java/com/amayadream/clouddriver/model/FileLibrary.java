@@ -33,6 +33,11 @@ public class FileLibrary implements Serializable {
     /** 文件状态(1:正常, -1:封禁) */
     private int status;
 
+    /** 常量: 文件状态: 正常 */
+    public static final int STATUS_NORMAL = 1;
+    /** 常量: 文件状态: 回收站 */
+    public static final int STATUS_FORB = -1;
+
     public FileLibrary() {
 
     }

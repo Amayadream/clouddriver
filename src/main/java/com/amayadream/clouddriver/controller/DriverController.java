@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import javax.servlet.http.HttpSession;
+
 /**
  *
  * @author :  Amayadream
@@ -22,7 +24,8 @@ public class DriverController {
      * 个人主页
      */
     @RequestMapping(value = "/home")
-    public String home(){
+    public String home(HttpSession session){
+        session.setAttribute(Constants.SESSION_USERID, "Amayadream");
         return "index";
     }
 

@@ -27,12 +27,17 @@ public class User implements Serializable {
     private String mail;
     /** 手机 */
     private String phone;
-    /** 账号状态 */
-    private int status;
     /** 注册时间 */
     private Date registerTime;
     /** 最后登陆时间 */
     private Date finallyTime;
+    /** 账号状态 */
+    private int status;
+
+    /** 常量: 共享状态: 正常 */
+    public static final int STATUS_NORMAL = 1;
+    /** 常量: 共享状态: 已停用 */
+    public static final int STATUS_FORB = -1;
 
     public User() {
     }
