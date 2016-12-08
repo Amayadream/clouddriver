@@ -47,7 +47,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public void insert(User user) {
         Date date = new Date();
-        user.setRegisterTime(date);
+        user.setCreateTime(date);
         user.setFinallyTime(date);
         user.setStatus(Constants.ACCOUNT_WAITFORVALID);
         mongoTemplate.insert(user);

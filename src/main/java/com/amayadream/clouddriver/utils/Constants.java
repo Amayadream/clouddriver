@@ -12,6 +12,8 @@ public class Constants {
     /** SESSION 中的用户信息 */
     public static final String SESSION_USER = "user";
 
+    public static final String SESSION_VERIFY_CODE = "verifyCode";
+
     /** 账号状态: 正常 */
     public static final int ACCOUNT_ACTIVE = 1;
     /** 账号状态: 待验证邮箱 */

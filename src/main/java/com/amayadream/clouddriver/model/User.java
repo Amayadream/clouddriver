@@ -28,7 +28,7 @@ public class User implements Serializable {
     /** 手机 */
     private String phone;
     /** 注册时间 */
-    private Date registerTime;
+    private Date createTime;
     /** 最后登陆时间 */
     private Date finallyTime;
     /** 账号状态 */
@@ -51,14 +51,14 @@ public class User implements Serializable {
         this.status = status;
     }
 
-    public User(String userId, String password, String salt, String mail, String phone, int status, Date registerTime, Date finallyTime) {
+    public User(String userId, String password, String salt, String mail, String phone, int status, Date createTime, Date finallyTime) {
         this.userId = userId;
         this.password = password;
         this.salt = salt;
         this.mail = mail;
         this.phone = phone;
         this.status = status;
-        this.registerTime = registerTime;
+        this.createTime = createTime;
         this.finallyTime = finallyTime;
     }
 
@@ -102,12 +102,12 @@ public class User implements Serializable {
         this.phone = phone;
     }
 
-    public Date getRegisterTime() {
-        return registerTime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setRegisterTime(Date registerTime) {
-        this.registerTime = registerTime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public Date getFinallyTime() {
@@ -124,5 +124,13 @@ public class User implements Serializable {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public static int getStatusNormal() {
+        return STATUS_NORMAL;
+    }
+
+    public static int getStatusForb() {
+        return STATUS_FORB;
     }
 }

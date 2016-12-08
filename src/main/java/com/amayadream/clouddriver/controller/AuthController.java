@@ -3,6 +3,7 @@ package com.amayadream.clouddriver.controller;
 import com.amayadream.clouddriver.model.User;
 import com.amayadream.clouddriver.service.IUserService;
 import com.amayadream.clouddriver.utils.Constants;
+import com.amayadream.clouddriver.utils.StringUtil;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
@@ -38,25 +39,26 @@ public class AuthController {
      * 登陆
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(User user, HttpSession session, RedirectAttributes attributes){
+    public String login(User user, String verifyCode, HttpSession session, RedirectAttributes attributes){
         if(!StringUtils.isEmpty(user.getUserId())  && !StringUtils.isEmpty(user.getPassword())){
-            User u = userService.findById(user.getUserId());
-            if(u != null){
-                if (u.getPassword().equals(DigestUtils.md5Hex(user.getPassword() + u.getSalt()))) {
-                    session.setAttribute(Constants.SESSION_USERID, u.getUserId());
-                    session.setAttribute(Constants.SESSION_USER, u);
-                    attributes.addFlashAttribute("message", "登陆成功!");
-                    return "redirect:/driver/home";
+            if(!StringUtils.isEmpty(verifyCode) && verifyCode.equalsIgnoreCase(String.valueOf(session.getAttribute(Constants.SESSION_VERIFY_CODE)))){
+                User u = userService.findById(user.getUserId());
+                if(u != null){
+                    if (u.getPassword().equals(DigestUtils.md5Hex(user.getPassword() + u.getSalt()))) {
+                        session.setAttribute(Constants.SESSION_USERID, u.getUserId());
+                        session.setAttribute(Constants.SESSION_USER, u);
+                        attributes.addFlashAttribute("message", "登陆成功!");
+                        return "redirect:/driver/home";
+                    }else{
+                        attributes.addFlashAttribute("error", "用户密码错误!");
+                    }
                 }else{
-                    //密码错误
-                    attributes.addFlashAttribute("error", "用户密码错误!");
+                    attributes.addFlashAttribute("error", "用户不存在!");
                 }
             }else{
-                //用户不存在
-                attributes.addFlashAttribute("error", "用户不存在!");
+                attributes.addFlashAttribute("error", "验证码错误!");
             }
         }else{
-            //用户名或密码不能为空!
             attributes.addFlashAttribute("error", "用户名和密码不能为空!");
         }
         return "redirect:/auth/login";
@@ -74,9 +76,31 @@ public class AuthController {
      * 注册
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String regsiter(User user){
-
-        return null;
+    public String regsiter(User user, String rpassword, String verifyCode, HttpSession session, RedirectAttributes attributes){
+        if(!StringUtils.isEmpty(user.getMail()) && !StringUtils.isEmpty(user.getUserId()) &&
+                !StringUtils.isEmpty(user.getPassword()) && !StringUtils.isEmpty(rpassword)){
+            if(!StringUtils.isEmpty(verifyCode) && verifyCode.equalsIgnoreCase(String.valueOf(session.getAttribute(Constants.SESSION_VERIFY_CODE)))){
+                if(userService.isUserIdExist(user.getUserId())) {
+                    attributes.addFlashAttribute("error", "用户名已存在!");
+                } else if (userService.isMailExist(user.getMail())){
+                    attributes.addFlashAttribute("error", "邮箱已被占用!");
+                } else if (userService.isPhoneExist(user.getPhone())) {
+                    attributes.addFlashAttribute("error", "手机号已被占用!");
+                } else {
+                    String salt = StringUtil.generateGuid();
+                    String pwd = DigestUtils.md5Hex(user.getPassword() + salt);
+                    User u = new User(user.getUserId(), pwd, salt, user.getMail(), user.getPhone(), User.STATUS_NORMAL);
+                    userService.insert(u);
+                    attributes.addFlashAttribute("message", "注册成功!");
+                    return "redirect:/auth/login";
+                }
+            }else{
+                attributes.addFlashAttribute("error", "验证码错误!");
+            }
+        }else{
+            attributes.addFlashAttribute("error", "表单未填写完整!");
+        }
+        return "redirect:/auth/register";
     }
 
     /**

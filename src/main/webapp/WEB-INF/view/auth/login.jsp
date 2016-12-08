@@ -26,24 +26,25 @@
             </div>
         </div>
 
-        <div class="login form">
-            <div class="group">
-                <div class="group-ipt email">
-                    <input type="text" name="email" id="email" class="ipt" placeholder="邮箱地址" required>
-                </div>
-                <div class="group-ipt password">
-                    <input type="password" name="password" id="password" class="ipt" placeholder="输入您的登录密码" required>
-                </div>
-                <div class="group-ipt verify">
-                    <input type="text" name="verify" id="verify" class="ipt" placeholder="输入验证码" required>
-                    <img src="http://zrong.me/home/index/imgcode?id=" class="imgcode">
+        <form action="${ctx}/auth/login" method="POST">
+            <div class="login form">
+                <div class="group">
+                    <div class="group-ipt email">
+                        <input type="text" class="ipt" name="userId" placeholder="用户名" required>
+                    </div>
+                    <div class="group-ipt password">
+                        <input type="password" class="ipt" name="password" placeholder="输入您的登录密码" required>
+                    </div>
+                    <div class="group-ipt verify">
+                        <input type="text" class="ipt" name="verifyCode" placeholder="输入验证码" required>
+                        <img src="${ctx}/common/createVerifyCode" class="imgcode">
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="button">
-            <button type="submit" class="login-btn register-btn" id="button">登录</button>
-        </div>
+            <div class="button">
+                <button type="submit" class="login-btn register-btn" id="button">登录</button>
+            </div>
+        </form>
 
         <div class="remember clearfix">
             <label class="remember-me"><span class="icon"><span class="zt"></span></span><input type="checkbox" name="remember-me" id="remember-me" class="remember-mecheck" checked>记住我</label>
@@ -55,8 +56,8 @@
 </div>
 
 <div class="footer">
-    <p>千寻 - Thousands Find</p>
-    <p>Designed By ZengRong & <a href="zrong.me">zrong.me</a> 2016</p>
+    <p>Amayadream - Thousands Find</p>
+    <p>©2015-2016 <a href="http://www.amayadream.com">Amayadream</a> 版权所有</p>
 </div>
 
 <script type="text/javascript" src='${ctx}/static/source/js/particles.js'></script>
@@ -64,6 +65,18 @@
 <script type="text/javascript" src="${ctx}/static/plugins/jquery/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src='${ctx}/static/plugins/layer/layer.js' ></script>
 <script>
+    if("${message}"){
+        layer.msg('${message}', {
+            offset: 0
+        });
+    }
+    if("${error}"){
+        layer.msg('${error}', {
+            offset: 0,
+            shift: 6
+        });
+    }
+
     $('.imgcode').hover(function(){
         layer.tips("看不清？点击更换", '.verify', {
             time: 6000,
@@ -72,7 +85,7 @@
     },function(){
         layer.closeAll('tips');
     }).click(function(){
-        $(this).attr('src','http://zrong.me/home/index/imgcode?id=' + Math.random());
+        $(this).attr('src','${ctx}/common/createVerifyCode?_=' + Math.random());
     });
     $("#remember-me").click(function(){
         var n = document.getElementById("remember-me").checked;

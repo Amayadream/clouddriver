@@ -28,7 +28,6 @@
     </mongo:mongo>
 
     <mongo:db-factory dbname="${mongo.name}" mongo-ref="mongo"/>
-
     <mongo:mapping-converter id="mongoConverter"/>
 
     <bean id="gridFsTemplate" class="org.springframework.data.mongodb.gridfs.GridFsTemplate">
