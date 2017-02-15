@@ -88,28 +88,6 @@
         $(this).attr('src','${ctx}/common/createVerifyCode?_=' + Math.random());
     });
 
-    $(".login-btn").click(function(){
-        var email = $("#email").val();
-        var password = $("#password").val();
-        var verify = $("#verify").val();
-        // $.ajax({
-        // url: 'http://www.zrong.me/home/index/userLogin',
-        // type: 'post',
-        // jsonp: 'jsonpcallback',
-        //       jsonpCallback: "flightHandler",
-        // async: false,
-        // data: {
-        // 	'email':email,
-        // 	'password':password,
-        // 	'verify':verify
-        // },
-        // success: function(data){
-        // 	info = data.status;
-        // 	layer.msg(info);
-        // }
-        // })
-
-    })
     $("#remember-me").click(function(){
         var n = document.getElementById("remember-me").checked;
         if(n){

@@ -25,7 +25,6 @@ public class DriverController {
      */
     @RequestMapping(value = "/home")
     public String home(HttpSession session){
-        session.setAttribute(Constants.SESSION_USERID, "Amayadream");
         return "index";
     }
 
