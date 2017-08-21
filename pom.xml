@@ -9,161 +9,76 @@
     <url>http://maven.apache.org</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.version>4.3.9.RELEASE</spring.version>
-        <log4j2.version>2.8</log4j2.version>
+        <spring.boot.version>1.5.6.RELEASE</spring.boot.version>
     </properties>
     <dependencies>
-        <!-- driver -->
+        <!-- MySQL Driver -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>6.0.6</version>
         </dependency>
 
-        <!-- jstl -->
-        <dependency>
-            <groupId>jstl</groupId>
-            <artifactId>jstl</artifactId>
-            <version>1.2</version>
-        </dependency>
-
-        <!-- test -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-        </dependency>
-
-        <!-- pool -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>1.0.29</version>
-        </dependency>
-
-        <!-- Servlet API -->
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>7.0</version>
-            <scope>provided</scope> <!-- 编译时不需要发布,否则在集成maven的tomcat插件会出现错误 -->
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.0.1</version>
-            <scope>provided</scope> <!-- 编译时不需要发布,否则在集成maven的tomcat插件会出现错误 -->
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet.jsp</groupId>
-            <artifactId>jsp-api</artifactId>
-            <version>2.2</version>
-            <scope>provided</scope> <!-- 编译时不需要发布,否则在集成maven的tomcat插件会出现错误 -->
-        </dependency>
-
         <!-- JSON -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.34</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.8.1</version>
+            <version>1.2.36</version>
         </dependency>
 
-        <!-- commons -->
+        <!-- Common -->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>21.0</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.5</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.5</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-collections4</artifactId>
-            <version>4.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-configuration2</artifactId>
-            <version>2.1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-fileupload</groupId>
-            <artifactId>commons-fileupload</artifactId>
-            <version>1.3.2</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-            <version>1.10</version>
+            <version>23.0</version>
         </dependency>
 
-        <!-- log4j2 -->
+        <!-- Spring Boot -->
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-web</artifactId>
-            <version>${log4j2.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>${spring.boot.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-            <version>${log4j2.version}</version>
-        </dependency>
-
-        <!-- Spring -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>${spring.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <version>${spring.boot.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
-            <version>${spring.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>${spring.boot.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <!-- mybatis -->
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis</artifactId>
-            <version>3.4.4</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>${spring.boot.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis-spring</artifactId>
-            <version>1.3.1</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <version>${spring.boot.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis-typehandlers-jsr310</artifactId>
-            <version>1.0.2</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+            <version>${spring.boot.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper</artifactId>
-            <version>5.0.1</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+            <version>${spring.boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <version>${spring.boot.version}</version>
         </dependency>
     </dependencies>
     <build>
@@ -183,6 +98,7 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                    <encoding>utf-8</encoding>
                 </configuration>
             </plugin>
         </plugins>
