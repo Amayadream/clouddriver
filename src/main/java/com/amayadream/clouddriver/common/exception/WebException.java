@@ -3,15 +3,15 @@ package com.amayadream.clouddriver.common.exception;
 import com.amayadream.clouddriver.common.result.ResultConstant;
 
 /**
- * 业务层异常
- * @author : Amayadream
- * @date :   2017-08-17 14:37
+ * Web层异常
+ * @author :  Amayadream
+ * @date :  2017.08.21 23:32
  */
-public class ServiceException extends RuntimeException {
+public class WebException extends RuntimeException {
 
     private ResultConstant constant;
 
-    public ServiceException(ResultConstant constant) {
+    public WebException(ResultConstant constant) {
         super(constant.message);
         this.constant = constant;
     }
