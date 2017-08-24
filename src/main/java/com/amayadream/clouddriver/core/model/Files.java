@@ -17,11 +17,19 @@ public class Files implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
+    /* 文件名, 包含后缀 */
     private String name;
+    /* 文件格式 */
     private String suffix;
+    /* 文件大小, 单位为kb */
     private Long size;
+    /* 文件路径, 相对路径 */
     private String path;
+    /* 文件md5 */
     private String md5;
+    /* 文件状态, 0:待分片上传, 1:正常 */
+    private Integer status;
+    /* 创建时间 */
     private Date createdTime;
 
 
@@ -80,5 +88,13 @@ public class Files implements Serializable {
 
     public void setCreatedTime(Date createdTime) {
         this.createdTime = createdTime;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }
