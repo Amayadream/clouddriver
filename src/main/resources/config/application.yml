@@ -2,23 +2,25 @@ spring:
   mvc:
     locale: zh_CN
     date-format: yyyy-MM-dd HH:mm:ss
+    view:
+      prefix: /view/
+      suffix: .jsp
   http:
     encoding:
       force: true
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/clouddriver?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+    url: jdbc:mysql://127.0.0.1:3306/clouddriver?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=false
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
-  jpa:
-    properties:
-      hibernate.hbm2ddl.auto: create
+#  jpa:
+#    properties:
+#      hibernate.hbm2ddl.auto: create
   transaction:
     rollback-on-commit-failure: true
   redis:
     host: 127.0.0.1
     port: 6379
-#    password:
     database: 1
     pool:
       max-active: 32
