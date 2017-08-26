@@ -17,11 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * @author :  Amayadream
@@ -110,6 +108,13 @@ public class FileController {
                 sharding.deleteOnExit();
                 return Results.nok(ResultConstant.FILE_NOT_EXIST, "该分片尚未上传!");
             }
+
+            //该分片已经上传
+            if (Objects.equals(total, index)) {
+                //所有分片均已验证过, 进行合并
+                merge(fileMd5, fileName, total, saveDirectory);
+            }
+
             //如果相等则直接返回成功
             return Results.ok(ResultConstant.SUCCESS);
         } else {    //如果是上传则直接上传文件
@@ -125,36 +130,43 @@ public class FileController {
                     totalFile.setName(fileName);
                     totalFile.setSuffix(FilenameUtils.getName(fileName));
                     totalFile.setMd5(fileMd5);
-                    totalFile.setSize(0L);
+                    totalFile.setSize(size);
                     totalFile.setStatus(FilesStatusEnum.CREATING.value);
                     totalFile.setCreatedTime(new Date());
                     filesRepository.save(totalFile);
-                } else if (fileArray.length == total) { //所以分片都上传完毕, 准备合并
-                    File totalFile = new File(buildFullPath(buildSavePath(fileMd5)), fileName);
-                    FileOutputStream fos = new FileOutputStream(totalFile, true);
-                    byte[] bytes = new byte[10 * 1024 * 1024];
-                    int len;
-                    FileInputStream tmp = null; //分片文件
-                    for (int i = 0; i < total; i++) {
-                        tmp = new FileInputStream(new File(saveDirectory, String.valueOf(i + 1)));
-                        while ((len = tmp.read(bytes)) != -1) {
-                            fos.write(bytes, 0, len);
-                        }
-                    }
-                    if (tmp != null) {
-                        tmp.close();
-                    }
-                    fos.close();
-
-                    //保存文件
-                    Files f = filesRepository.findByMd5(fileMd5);
-                    f.setStatus(FilesStatusEnum.COMPLETED.value);
-                    filesRepository.save(f);
+                }
+                if (fileArray.length == total) { //所以分片都上传完毕, 准备合并
+                    merge(fileMd5, fileName, total, saveDirectory);
                 }
             }
         }
 
         return Results.ok(ResultConstant.SUCCESS);
+    }
+
+    private void merge(String fileMd5, String fileName, int total, String saveDirectory) throws IOException {
+        File totalFile = new File(buildFullPath(buildSavePath(fileMd5)), fileName);
+        FileOutputStream fos = new FileOutputStream(totalFile, true);
+        byte[] bytes = new byte[10 * 1024 * 1024];
+        int len;
+        FileInputStream tmp = null; //分片文件
+        for (int i = 0; i < total; i++) {
+            tmp = new FileInputStream(new File(saveDirectory, String.valueOf(i + 1)));
+            while ((len = tmp.read(bytes)) != -1) {
+                fos.write(bytes, 0, len);
+            }
+        }
+        if (tmp != null) {
+            tmp.close();
+        }
+        fos.close();
+
+        //保存文件
+        Files f = filesRepository.findByMd5(fileMd5);
+        f.setPath(totalFile.getPath());
+        f.setStatus(FilesStatusEnum.COMPLETED.value);
+        filesRepository.save(f);
+
     }
 
     private static String buildFullPath(String savePath) {
