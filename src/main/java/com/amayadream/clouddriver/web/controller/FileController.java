@@ -112,7 +112,7 @@ public class FileController {
             //该分片已经上传
             if (Objects.equals(total, index)) {
                 //所有分片均已验证过, 进行合并
-                merge(fileMd5, fileName, total, saveDirectory);
+                mergeFile(null, fileName, fileMd5, size, total, saveDirectory);
             }
 
             //如果相等则直接返回成功
@@ -125,7 +125,8 @@ public class FileController {
         if (path.isDirectory()) {
             File[] fileArray = path.listFiles();
             if (fileArray != null) {
-                if (fileArray.length == 1) {    //第一次上传, 则记录总文件
+                Files f = filesRepository.findByMd5(fileMd5);
+                if (fileArray.length == 1 || f == null) {    //第一次上传, 则记录总文件
                     Files totalFile = new Files();
                     totalFile.setName(fileName);
                     totalFile.setSuffix(FilenameUtils.getName(fileName));
@@ -136,7 +137,7 @@ public class FileController {
                     filesRepository.save(totalFile);
                 }
                 if (fileArray.length == total) { //所以分片都上传完毕, 准备合并
-                    merge(fileMd5, fileName, total, saveDirectory);
+                    mergeFile(f, fileName, fileMd5, size, total, saveDirectory);
                 }
             }
         }
@@ -144,7 +145,7 @@ public class FileController {
         return Results.ok(ResultConstant.SUCCESS);
     }
 
-    private void merge(String fileMd5, String fileName, int total, String saveDirectory) throws IOException {
+    private void mergeFile(Files f, String fileName, String fileMd5, Long fileSize, int total, String saveDirectory) throws IOException {
         File totalFile = new File(buildFullPath(buildSavePath(fileMd5)), fileName);
         FileOutputStream fos = new FileOutputStream(totalFile, true);
         byte[] bytes = new byte[10 * 1024 * 1024];
@@ -162,12 +163,19 @@ public class FileController {
         fos.close();
 
         //保存文件
-        Files f = filesRepository.findByMd5(fileMd5);
+        if (f == null) {
+            f = new Files();
+            f.setName(fileName);
+            f.setSuffix(FilenameUtils.getName(fileName));
+            f.setMd5(fileMd5);
+            f.setSize(fileSize);
+            f.setCreatedTime(new Date());
+        }
         f.setPath(totalFile.getPath());
         f.setStatus(FilesStatusEnum.COMPLETED.value);
         filesRepository.save(f);
-
     }
+
 
     private static String buildFullPath(String savePath) {
         return "f:/" + savePath;

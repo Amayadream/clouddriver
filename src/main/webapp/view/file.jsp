@@ -13,11 +13,16 @@
 <body>
 
 <div>
-    <input type="file" id="file">
-    <button id="upload">上传</button>
-    <span id="message" style="font-size:12px">等待</span>
-    <span id="log" style="font-size:12px">等待</span>
-    <span id="time" style="font-size:12px;margin-left:20px;">用时</span>
+    <div>
+        <input type="file" id="file">
+        <button id="upload">上传</button>
+    </div>
+    <div id="message">
+
+    </div>
+    <div id="log">
+
+    </div>
     <span id="md5" style="font-size:12px;margin-left:20px;">md5</span>
 </div>
 
@@ -33,6 +38,7 @@
         get_hash(file, isUpload);
 
         function isUpload(hash) {
+            $("#md5").text(hash);
             var form = new FormData();
             form.append("fileMd5", hash);
             $.ajax({
@@ -57,6 +63,7 @@
         }
 
         var i = 0, action = false;
+
         function upload(hash) {
             var name = file.name,
                 size = file.size,
@@ -65,7 +72,7 @@
 
             if (i < shardCount) {
                 if (!action) {
-                    i ++;
+                    i++;
                 }
             } else {
                 i = shardCount;
@@ -99,9 +106,10 @@
                     async: true,        //异步
                     processData: false,  //很重要，告诉jquery不要对form进行处理
                     contentType: false,  //很重要，指定为false才能形成正确的Content-Type
-                    success: function(data) {
+                    success: function (data) {
                         if (!action) {  //验证请求
                             if (data.code === 0) {  //分片已经上传
+                                $("#log").append("<p>第" + i + "块#" + shardingMd5 + ": 后台检测到分片, 本次分片上传跳过!</p>");
                                 if (i === shardCount) {
                                     console.log("上传完毕...");
                                 } else {
@@ -113,6 +121,7 @@
                                 upload(hash);
                             }
                         } else {    //上传请求
+                            $("#log").append("<p>第" + i + "块#" + shardingMd5 + ": 分片上传成功!</p>");
                             if (shardCount === i) {   //上传完毕
                                 console.log("上传完毕...");
                             } else {    //部分上传
@@ -166,6 +175,7 @@
                 end = ((start + chunkSize) >= file.size) ? file.size : start + chunkSize;
             fileReader.readAsArrayBuffer(blobSlice.call(file, start, end));
         }
+
         loadNext();
     }
 

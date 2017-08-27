@@ -34,8 +34,4 @@ public class FileMd5Utils {
         return HexUtils.toHexString(md5.digest());
     }
 
-    public static void main(String[] args) throws IOException {
-        System.out.println(md5(new File("C:\\Users\\Administrator\\Desktop\\file-hash.html")));
-    }
-
 }
