@@ -3,7 +3,7 @@ spring:
     locale: zh_CN
     date-format: yyyy-MM-dd HH:mm:ss
     view:
-      prefix: /view/
+      prefix: /WEB-INF/view/
       suffix: .jsp
   http:
     encoding:
