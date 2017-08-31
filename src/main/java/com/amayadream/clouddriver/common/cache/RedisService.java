@@ -1,11 +1,14 @@
 package com.amayadream.clouddriver.common.cache;
 
+import com.amayadream.clouddriver.common.cache.config.RedisExpireConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -26,6 +29,8 @@ public class RedisService {
 
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
+    @Resource
+    private RedisExpireConfig redisExpireConfig;
 
     /**
      * 非阻塞锁
@@ -107,6 +112,42 @@ public class RedisService {
 
     public void setAndExpire(String redisKey, Object value, long expire, TimeUnit expireUnit) {
         redisTemplate.opsForValue().set(redisKey, value, expire, expireUnit);
+    }
+
+    public void hsetAndExpire(String hashKey, String key, String value, long expireSeconds) {
+        Instant timestamp = Instant.now().plusSeconds(expireSeconds);
+
+        redisTemplate.opsForHash().put(hashKey, key, value);
+        redisTemplate.opsForHash().put(redisExpireConfig.getKey(), buildExpireKey(hashKey, key), timestamp.toEpochMilli());
+    }
+
+    public String hgetAndExpire(String hashKey, String key) {
+        String value = (String) redisTemplate.opsForHash().get(hashKey, key);
+        String expireId = buildExpireKey(hashKey, key);    //生成expire中存储的key
+        if (StringUtils.isEmpty(value)) {
+            redisTemplate.opsForHash().delete(redisExpireConfig.getKey(), expireId);
+            return null;
+        }
+        Long timestamp = (Long) redisTemplate.opsForHash().get(redisExpireConfig.getKey(), expireId);
+        if (StringUtils.isEmpty(timestamp)) {
+            return null;
+        }
+        if (Instant.now().toEpochMilli() > timestamp) {
+            redisTemplate.opsForHash().delete(hashKey, key);
+            redisTemplate.opsForHash().delete(redisExpireConfig.getKey(), expireId);
+            return null;
+        }
+        return value;
+    }
+
+    /**
+     * 组装有效期hash中的key
+     *
+     * @param hashKey 保存数据的hash redisKey
+     * @param key     保存数据的hash key
+     */
+    private String buildExpireKey(String hashKey, String key) {
+        return hashKey + redisExpireConfig.getSeparator() + key;
     }
 
 }

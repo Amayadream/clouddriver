@@ -9,13 +9,13 @@ spring:
     encoding:
       force: true
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/clouddriver?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=false
+    url: jdbc:mysql://127.0.0.1:3306/clouddriver?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
-#  jpa:
-#    properties:
-#      hibernate.hbm2ddl.auto: create
+  jpa:
+    properties:
+      hibernate.hbm2ddl.auto: create
   transaction:
     rollback-on-commit-failure: true
   redis:
@@ -43,3 +43,10 @@ server:
 # 2.配置log4j2.xml
 logging:
   config: classpath:log4j2.xml
+
+
+redis:
+  expire:
+    key: expire_manager_v1.0
+    separator: '@'
+

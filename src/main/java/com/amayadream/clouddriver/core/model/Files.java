@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -30,7 +31,7 @@ public class Files implements Serializable {
     /* 文件状态, 0:待分片上传, 1:正常 */
     private Integer status;
     /* 创建时间 */
-    private Date createdTime;
+    private LocalDateTime createdTime;
 
 
 
@@ -82,11 +83,11 @@ public class Files implements Serializable {
         this.md5 = md5;
     }
 
-    public Date getCreatedTime() {
+    public LocalDateTime getCreatedTime() {
         return createdTime;
     }
 
-    public void setCreatedTime(Date createdTime) {
+    public void setCreatedTime(LocalDateTime createdTime) {
         this.createdTime = createdTime;
     }
 

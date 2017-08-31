@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.io.*;
-import java.util.Date;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -133,7 +136,7 @@ public class FileController {
                     totalFile.setMd5(fileMd5);
                     totalFile.setSize(size);
                     totalFile.setStatus(FilesStatusEnum.CREATING.value);
-                    totalFile.setCreatedTime(new Date());
+                    totalFile.setCreatedTime(LocalDateTime.now());
                     filesRepository.save(totalFile);
                 }
                 if (fileArray.length == total) { //所以分片都上传完毕, 准备合并
@@ -169,7 +172,7 @@ public class FileController {
             f.setSuffix(FilenameUtils.getName(fileName));
             f.setMd5(fileMd5);
             f.setSize(fileSize);
-            f.setCreatedTime(new Date());
+            f.setCreatedTime(LocalDateTime.now());
         }
         f.setPath(totalFile.getPath());
         f.setStatus(FilesStatusEnum.COMPLETED.value);
