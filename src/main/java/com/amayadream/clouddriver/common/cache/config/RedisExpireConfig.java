@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
  * @date :   2017-08-31 14:57
  */
 @Configuration
-@ConfigurationProperties(prefix = "redis.expire")
+@ConfigurationProperties(prefix = "clouddriver.redis.expire")
 public class RedisExpireConfig {
 
     private String key;

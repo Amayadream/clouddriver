@@ -45,8 +45,12 @@ logging:
   config: classpath:log4j2.xml
 
 
-redis:
-  expire:
-    key: expire_manager_v1.0
-    separator: '@'
-
+# 项目自定义配置
+clouddriver:
+  sign:
+    secret: a424fe38051ff7852f0d448086994614
+    expire-time: 3
+  redis:
+    expire:
+      key: clouddriver_hash_expire_manager_v1.0
+      separator: '@'
